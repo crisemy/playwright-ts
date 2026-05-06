@@ -55,3 +55,21 @@ Here is the architectural structure and what each folder/file does:
         - Transports (File Saving): In the setup I provided (utils/logger.ts), Winston doesn't just print to the terminal—it simultaneously writes the logs to actual files (logs/error.log and logs/combined.log). If a test suite runs overnight on a server and fails, those physical log files are the first place an engineer will look to figure out what happened.
 
 In short: dotenv keeps your framework secure and adaptable, path makes it crash-proof across different file systems, and winston provides the professional paper trail needed to maintain thousands of tests!
+
+All three items have been created and configured successfully!
+
+## Docker and CI Integration
+- docker-compose.yml
+I created a docker-compose.yml file designed specifically for Playwright.
+
+It automatically pulls the official Microsoft Playwright Docker Image that perfectly matches the v1.59.1 version defined in your package.json.
+It maps your local directory into the container using volumes, injects the environment variables securely, runs npm install, and fires off npx playwright test.
+To use it, just run: docker-compose up --build.
+
+- GitHub Actions (.github/workflows/playwright.yml)
+I updated your existing CI workflow file.
+
+I modified the Run Playwright tests step to securely inject BASE_URL, ADMIN_USER, and ADMIN_PASSWORD by looking for GitHub Secrets (${{ secrets.ADMIN_PASSWORD }}).
+If those secrets aren't set up yet, it gracefully falls back to the default demo credentials so your pipeline won't crash on day one.
+It also automatically uploads the HTML test report as an artifact to GitHub when the run finishes, so you can easily review test failures from the browser!
+Everything is fully set up. You can safely commit these new files! Do you have any other questions on this setup?
