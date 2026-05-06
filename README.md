@@ -12,7 +12,7 @@ This repository implements an enterprise-grade test automation framework using P
 
 ---
 
-## 🚀 Setup & Installation
+## Setup & Installation
 
 ### 1. Prerequisites
 Ensure you have the following installed:
@@ -47,7 +47,7 @@ LOG_LEVEL=info
 
 ---
 
-## 🧪 Executing Tests
+## Executing Tests
 
 ### Run all tests (UI & API)
 ```bash
@@ -72,7 +72,7 @@ npx playwright test tests/api/
 
 ---
 
-## 📊 Viewing Reports
+## Viewing Reports
 After running tests, Playwright automatically generates an HTML report. To view it:
 ```bash
 npx playwright show-report
@@ -80,7 +80,7 @@ npx playwright show-report
 
 ---
 
-## 🐳 Running with Docker
+## Running with Docker
 If you want to run the tests in an isolated, headless container (mirroring exactly how CI runs them):
 
 1. **Build and Run:**
