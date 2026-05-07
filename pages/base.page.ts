@@ -2,6 +2,8 @@ import { Page, Locator, expect } from '@playwright/test';
 import { logger } from '../utils/logger';
 import { ENV } from '../config/env.config';
 
+// Base Page Class for all pages, to include generic methods
+// The class is extended by other page classes to inherit these methods
 export class BasePage {
     readonly page: Page;
 
