@@ -1,4 +1,5 @@
 # Architecture documentation
+
 I have successfully set up the complete architecture you requested. It follows the Page Object Model (POM) and uses best practices suitable for a QA Architect, including proper logging, custom test fixtures, environment variables configurations, and test data separation.
 
 Here is the architectural structure and what each folder/file does:
@@ -32,6 +33,7 @@ Here is the architectural structure and what each folder/file does:
         - status-codes.spec.ts: Validates HTTP status code responses directly using Playwright's `request` fixture.
     
 ## Actions Performed
+
 1. Installed dotenv and winston as dependencies via npm.
 2. Formatted playwright.config.ts to correctly parse config/.env using the absolute path resolver.
 3. Wrote all the logic and classes for the structure described above.
@@ -39,6 +41,7 @@ Here is the architectural structure and what each folder/file does:
 5. Fired off npx playwright test to validate the setup. All 6 tests passed flawlessly across Chromium, Firefox, and WebKit on your environment!
 
 ## Libraries
+
 1. dotenv (Environment Variable Management)
     - What it is: A zero-dependency module that loads environment variables from a .env file into Node.js's process.env.
     - Why we use it: Security and Flexibility. Hardcoding passwords, API keys, or URLs directly into your source code is a major security risk and bad practice. If you need to switch your tests from a staging environment (staging.the-internet.com) to production (the-internet.herokuapp.com), you shouldn't have to rewrite your code. dotenv allows you to store these configurations securely outside your codebase. You simply update the .env file or pass variables via your CI/CD pipeline (like Jenkins or GitHub Actions), and the framework adapts automatically.
@@ -59,6 +62,7 @@ In short: dotenv keeps your framework secure and adaptable, path makes it crash-
 All three items have been created and configured successfully!
 
 ## Docker and CI Integration
+
 - docker-compose.yml
 I created a docker-compose.yml file designed specifically for Playwright.
 
@@ -73,3 +77,7 @@ I modified the Run Playwright tests step to securely inject BASE_URL, ADMIN_USER
 If those secrets aren't set up yet, it gracefully falls back to the default demo credentials so your pipeline won't crash on day one.
 It also automatically uploads the HTML test report as an artifact to GitHub when the run finishes, so you can easily review test failures from the browser!
 Everything is fully set up. You can safely commit these new files! Do you have any other questions on this setup?
+
+## Conclusion
+
+This is the skeleton of a well structured Playwright TypeScript framework
