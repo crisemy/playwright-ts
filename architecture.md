@@ -6,32 +6,34 @@ Here is the architectural structure and what each folder/file does:
 
 ## Architecture Structure
 
-- config/: Manages environment variables and framework configuration    .
-    - .env: Stores variables like BASE_URL, ADMIN_USER, and LOG_LEVEL.
-    - env.config.ts: Safely loads and exports environment variables using dotenv.
+* config/: Manages environment variables and framework configuration.
 
-- utils/: Holds helper functions and cross-cutting concerns.
-    - logger.ts: Robust custom logger configured with winston. It formats messages, prints them to the console, and outputs them to the logs/ directory.
+- .env: Stores variables like BASE_URL, ADMIN_USER, and LOG_LEVEL.
+- env.config.ts: Safely loads and exports environment variables using dotenv.
 
-- pages/: Contains the Page Object Models.
-    - base.page.ts: The core Page Object. It abstracts fundamental actions like navigating, clicking, typing, and logging those interactions. All specific pages inherit from this.
-    - login.page.ts: Extends BasePage. It defines selectors and logic unique to the login view on "The Internet" demo app, wrapping everything in reusable methods.
+* utils/: Holds helper functions and cross-cutting concerns.
+- logger.ts: Robust custom logger configured with winston. It formats messages, prints them to the console, and outputs them to the logs/ directory.
 
-- fixtures/: Playwright test fixture definitions.
-    - test.fixture.ts: Automatically sets up and injects the instantiated Page Objects (e.g., loginPage) into your tests, dramatically keeping your tests completely independent and reducing boilerplate.
+* pages/: Contains the Page Object Models.
+- base.page.ts: The core Page Object. It abstracts fundamental actions like navigating, clicking, typing, and logging those interactions. All specific pages inherit from this.
+- login.page.ts: Extends BasePage. It defines selectors and logic unique to the login view on "The Internet" demo app, wrapping everything in reusable methods.
 
-- data/: Stores static test data to avoid hardcoding strings into test files.
-    - testData.json: An example file mapping a negative login attempt user.
+* fixtures/: Playwright test fixture definitions.
+- test.fixture.ts: Automatically sets up and injects the instantiated Page Objects (e.g., loginPage) into your tests, dramatically keeping your tests completely independent and reducing boilerplate.
 
-- api/: Contains API Object Models (AOM) for encapsulating backend requests.
-    - status-codes.client.ts: A client object to wrap the endpoints at `/status_codes`, managing GET requests and response assertions.
+* data/: Stores static test data to avoid hardcoding strings into test files.
+- testData.json: An example file mapping a negative login attempt user.
 
-- tests/: Contains your test specifications divided by testing scope.
-    - ui/: Holds end-to-end browser tests.
-        - login.spec.ts: A fully functional end-to-end test validating the login.page.ts using the POM pattern.
-    - api/: Holds API and backend-focused tests.
-        - status-codes.spec.ts: Validates HTTP status code responses directly using Playwright's `request` fixture.
-    
+* api/: Contains API Object Models (AOM) for encapsulating backend requests.
+- status-codes.client.ts: A client object to wrap the endpoints at `/status_codes`, managing GET requests and response assertions.
+
+* tests/: Contains your test specifications divided by testing scope.
+- ui/: Holds end-to-end browser tests.
+    - login.spec.ts: A fully functional end-to-end test validating the login.page.ts using the POM pattern.
+- api/: Holds API and backend-focused tests.
+    - status-codes.spec.ts: Validates HTTP status code responses directly using Playwright's `request` fixture.
+
+
 ## Actions Performed
 
 1. Installed dotenv and winston as dependencies via npm.
