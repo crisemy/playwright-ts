@@ -33,7 +33,6 @@ Here is the architectural structure and what each folder/file does:
 - api/: Holds API and backend-focused tests.
     - status-codes.spec.ts: Validates HTTP status code responses directly using Playwright's `request` fixture.
 
-
 ## Actions Performed
 
 1. Installed dotenv and winston as dependencies via npm.
@@ -65,14 +64,14 @@ All three items have been created and configured successfully!
 
 ## Docker and CI Integration
 
-- docker-compose.yml
+* docker-compose.yml
 I created a docker-compose.yml file designed specifically for Playwright.
 
 It automatically pulls the official Microsoft Playwright Docker Image that perfectly matches the v1.59.1 version defined in your package.json.
 It maps your local directory into the container using volumes, injects the environment variables securely, runs npm install, and fires off npx playwright test.
 To use it, just run: docker-compose up --build.
 
-- GitHub Actions (.github/workflows/playwright.yml)
+* GitHub Actions (.github/workflows/playwright.yml)
 I updated your existing CI workflow file.
 
 I modified the Run Playwright tests step to securely inject BASE_URL, ADMIN_USER, and ADMIN_PASSWORD by looking for GitHub Secrets (${{ secrets.ADMIN_PASSWORD }}).
