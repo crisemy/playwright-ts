@@ -101,14 +101,16 @@ npx playwright show-report
 
 If you want to run the tests in an isolated, headless container (mirroring exactly how CI runs them):
 
-1. **Build and Run:**
+- **Build and Run:**
+
 ```bash
 docker-compose up --build
 ```
 
 This will spin up a container using the official Microsoft Playwright image and execute all tests.
 
-2. **Tear down:**
+- **Tear down:**
+
 ```bash
 docker-compose down
 ```
