@@ -1,6 +1,6 @@
 # Architecture documentation
 
-I have successfully set up the complete architecture you requested. It follows the Page Object Model (POM) and uses best practices suitable for a QA Architect, including proper logging, custom test fixtures, environment variables configurations, and test data separation.
+It follows the Page Object Model (POM) and uses best practices suitable for a QA Architect, including proper logging, custom test fixtures, environment variables configurations, and test data separation.
 
 Here is the architectural structure and what each folder/file does:
 
