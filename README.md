@@ -20,7 +20,6 @@ This repository implements an enterprise-grade test automation framework using P
 Ensure you have the following installed:
 
 - Node.js (LTS version recommended)
-- Git
 
 ### 2. Install Dependencies
 
@@ -47,7 +46,7 @@ Copy the `.env.example` file to create your local `.env` file:
 cp config/.env.example config/.env
 ```
 
-Ensure your `config/.env` contains the required variables:
+Ensure your `config/.env` contains the required variables. Below is just an example:
 
 ```env
 BASE_URL=https://the-internet.herokuapp.com
