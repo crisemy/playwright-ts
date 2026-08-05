@@ -17,7 +17,7 @@ export class BasePage {
      */
     async navigate(path: string = '') {
         const url = `${ENV.BASE_URL}${path}`;
-        logger.info(`Navigating to URL: ${url}`);
+        logger.info(`Navigating to URL: ${url}`); // For the logger, we can log the full URL being navigated to
         await this.page.goto(url);
     }
 
