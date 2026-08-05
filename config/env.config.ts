@@ -18,5 +18,5 @@ export const ENV = {
     BASE_URL: getEnvVar('BASE_URL'),
     ADMIN_USER: getEnvVar('ADMIN_USER'),
     ADMIN_PASSWORD: getEnvVar('ADMIN_PASSWORD'),
-    LOG_LEVEL: getEnvVar('LOG_LEVEL'),
+    LOG_LEVEL: getEnvVar('LOG_LEVEL'), // Added LOG_LEVEL to the ENV object for logging configuration
 };
