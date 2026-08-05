@@ -29,6 +29,12 @@ Clone the repository and install the project dependencies:
 npm install
 ```
 
+This installs all required dependencies, including `dotenv`, which the framework uses to load environment variables. If you ever need to install it explicitly:
+
+```bash
+npm install --save-dev dotenv
+```
+
 ### 3. Install Browsers
 
 Download the required Playwright browser binaries:
@@ -49,9 +55,9 @@ cp config/.env.example config/.env
 Ensure your `config/.env` contains the required variables. Below is just an example:
 
 ```env
-BASE_URL=https://the-internet.herokuapp.com
-ADMIN_USER=tomsmith
-ADMIN_PASSWORD=SuperSecretPassword!
+BASE_URL=
+ADMIN_USER=
+ADMIN_PASSWORD=
 LOG_LEVEL=info
 ```
 
