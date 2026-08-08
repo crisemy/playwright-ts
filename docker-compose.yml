@@ -1,19 +1,9 @@
-version: '3.8'
-
 services:
   playwright-tests:
-    # We use the exact playwright version matching package.json to prevent binary mismatch
     image: mcr.microsoft.com/playwright:v1.59.1-jammy
-    container_name: qa_automation_runner
+    init: true
     volumes:
       - .:/app
+      - /app/node_modules
     working_dir: /app
-    # Environment variables are passed through to the container
-    # so dotenv can pick them up when the test runs.
-    environment:
-      - BASE_URL=${BASE_URL:-https://the-internet.herokuapp.com}
-      - ADMIN_USER=${ADMIN_USER:-tomsmith}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-SuperSecretPassword!}
-      - LOG_LEVEL=${LOG_LEVEL:-info}
-    # Install node dependencies and trigger the test suite
-    command: /bin/bash -c "npm install && npx playwright test"
+    command: /bin/bash -lc "npm ci && npm test"

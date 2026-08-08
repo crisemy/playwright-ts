@@ -1,22 +1,24 @@
-// 
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
-// Load environment variables from .env file
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+// This module is the sole owner of local environment-file loading. Shell and
+// CI values take precedence because dotenv does not override existing values.
+dotenv.config({ path: path.resolve(__dirname, '.env'), quiet: true });
 
-// Helper function to get environment variables with validation
-function getEnvVar(key: string): string {
+export function getRequiredEnv(key: string): string {
     const value = process.env[key];
-    if (value === undefined) {
-        throw new Error(`Environment variable ${key} is not set in the .env file!`);
+    if (value === undefined || value.trim() === '') {
+        throw new Error(`Environment variable ${key} is required.`);
     }
     return value;
 }
 
+export function getOptionalEnv(key: string, fallback?: string): string | undefined {
+    const value = process.env[key]?.trim();
+    return value || fallback;
+}
+
 export const ENV = {
-    BASE_URL: getEnvVar('BASE_URL'),
-    ADMIN_USER: getEnvVar('ADMIN_USER'),
-    ADMIN_PASSWORD: getEnvVar('ADMIN_PASSWORD'),
-    LOG_LEVEL: getEnvVar('LOG_LEVEL'), // Added LOG_LEVEL to the ENV object for logging configuration
+    BASE_URL: getOptionalEnv('BASE_URL'),
+    LOG_LEVEL: getOptionalEnv('LOG_LEVEL', 'info')!,
 };
