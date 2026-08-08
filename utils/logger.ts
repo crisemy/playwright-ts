@@ -11,11 +11,7 @@ export const logger = winston.createLogger({
     level: ENV.LOG_LEVEL,
     transports: [
         new winston.transports.Console({
-            format: combine(
-                colorize(),
-                timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-                logFormat
-            )
+            format: combine(colorize(), timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), logFormat)
         }),
         new winston.transports.File({
             filename: 'logs/error.log',

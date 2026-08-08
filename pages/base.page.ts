@@ -1,6 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { logger } from '../utils/logger';
-import { ENV } from '../config/env.config';
 
 // Base Page Class for all pages, to include generic methods
 // The class is extended by other page classes to inherit these methods
@@ -12,13 +11,12 @@ export class BasePage {
     }
 
     /**
-     * Navigates to a specific path relative to the BASE_URL.
-     * @param path The path to append to the base URL
+     * Navigates to a path relative to Playwright's configured baseURL.
+     * @param path The SUT-specific route supplied by a concrete page object.
      */
-    async navigate(path: string = '') {
-        const url = `${ENV.BASE_URL}${path}`;
-        logger.info(`Navigating to URL: ${url}`); // For the logger, we can log the full URL being navigated to
-        await this.page.goto(url);
+    async navigate(path: string = '/') {
+        logger.info(`Navigating to path: ${path}`);
+        await this.page.goto(path);
     }
 
     /**
