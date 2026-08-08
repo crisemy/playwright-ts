@@ -17,9 +17,12 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+
+    - name: Type-check
+      run: npm run type-check
       
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npm test
       env:
         # These pull from GitHub Repository Secrets (Settings > Secrets and variables > Actions)
         BASE_URL: ${{ secrets.BASE_URL || 'https://the-internet.herokuapp.com' }}

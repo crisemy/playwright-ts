@@ -61,6 +61,9 @@ ADMIN_PASSWORD=
 LOG_LEVEL=info
 ```
 
+`config/.env` is local-only and ignored by Git. Commit changes to
+`config/.env.example` when the required configuration shape changes.
+
 ---
 
 ## Executing Tests
@@ -68,20 +71,30 @@ LOG_LEVEL=info
 ### Run all tests (UI & API)
 
 ```bash
-npx playwright test
+npm test
 ```
 
 ### Run only UI tests
 
 ```bash
-npx playwright test tests/ui/
+npm run test:ui
 ```
 
 ### Run only API tests
 
 ```bash
-npx playwright test tests/api/
+npm run test:api
 ```
+
+### Type-check the Framework
+
+Run this before opening a pull request or when changing TypeScript code:
+
+```bash
+npm run type-check
+```
+
+The GitHub Actions workflow runs the same command before the test suite.
 
 ### Useful Flags
 
@@ -90,6 +103,12 @@ npx playwright test tests/api/
 - `--project=chromium`: Run tests only on Google Chrome.
 - `--debug`: Step through your tests with the Playwright inspector.
 
+For a headed run, use:
+
+```bash
+npm run test:headed
+```
+
 ---
 
 ## Viewing Reports
@@ -97,7 +116,7 @@ npx playwright test tests/api/
 After running tests, Playwright automatically generates an HTML report. To view it:
 
 ```bash
-npx playwright show-report
+npm run test:report
 ```
 
 ---
