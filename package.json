@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test tests/ui",
+    "test:api": "playwright test tests/api",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report",
+    "type-check": "tsc --noEmit"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -12,6 +19,7 @@
     "@playwright/test": "^1.59.1",
     "@types/node": "^25.6.0",
     "dotenv": "^17.4.2",
+    "typescript": "^5.9.3",
     "winston": "^3.19.0"
   }
 }
