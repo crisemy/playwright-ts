@@ -23,17 +23,13 @@ Ensure you have the following installed:
 
 ### 2. Install Dependencies
 
-Clone the repository and install the project dependencies:
+Clone the repository and install the exact dependency versions from the lockfile:
 
 ```bash
-npm install
+npm ci
 ```
 
-This installs all required dependencies, including `dotenv`, which the framework uses to load environment variables. If you ever need to install it explicitly:
-
-```bash
-npm install --save-dev dotenv
-```
+Use `npm install` only when intentionally adding or updating a dependency.
 
 ### 3. Install Browsers
 
@@ -63,6 +59,9 @@ LOG_LEVEL=info
 
 `config/.env` is local-only and ignored by Git. Commit changes to
 `config/.env.example` when the required configuration shape changes.
+
+`config/env.config.ts` is the sole loader for this file. Environment variables
+provided by CI or your shell take precedence over local values.
 
 ---
 
@@ -127,18 +126,18 @@ workflow artifacts.
 
 ## Running with Docker
 
-If you want to run the tests in an isolated, headless container (mirroring exactly how CI runs them):
+If you want to run the tests in an isolated, headless container:
 
 - **Build and Run:**
 
 ```bash
-docker-compose up --build
+docker compose run --rm playwright-tests
 ```
 
-This will spin up a container using the official Microsoft Playwright image and execute all tests.
+This runs the official Microsoft Playwright image and executes the full suite.
 
-- **Tear down:**
+Docker runs `npm ci` and uses an isolated container `node_modules` volume. It
+loads `config/.env` from the mounted project; override an individual value for
+one execution with `docker compose run -e BASE_URL=https://example.test playwright-tests`.
 
-```bash
-docker-compose down
-```
+The `--rm` flag removes the one-off container when the test command exits.
