@@ -13,9 +13,9 @@ export class LoginPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.usernameInput = page.locator('#username');
-        this.passwordInput = page.locator('#password');
-        this.loginButton = page.locator('button[type="submit"]');
+        this.usernameInput = page.getByLabel('Username');
+        this.passwordInput = page.getByLabel('Password');
+        this.loginButton = page.getByRole('button', { name: 'Login' });
         this.flashMessage = page.locator('#flash');
     }
 

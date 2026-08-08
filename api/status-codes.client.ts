@@ -1,4 +1,4 @@
-import { APIRequestContext, APIResponse, expect } from '@playwright/test';
+import { APIRequestContext, APIResponse } from '@playwright/test';
 import { ENV } from '../config/env.config';
 import { logger } from '../utils/logger';
 
@@ -34,13 +34,5 @@ export class StatusCodesClient {
 
         logger.info(`Received response with status: ${response.status()}`);
         return response;
-    }
-
-    /**
-     * Asserts that the response status matches the expected code.
-     */
-    expectResponseStatus(response: APIResponse, expectedStatus: number): void {
-        logger.info(`Validating response status is ${expectedStatus}`);
-        expect(response.status()).toBe(expectedStatus);
     }
 }
