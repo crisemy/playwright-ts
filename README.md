@@ -119,6 +119,10 @@ After running tests, Playwright automatically generates an HTML report. To view 
 npm run test:report
 ```
 
+When a test fails, Playwright retains its trace, screenshot, and video under
+`test-results/`. CI uploads both this diagnostic output and the HTML report as
+workflow artifacts.
+
 ---
 
 ## Running with Docker
