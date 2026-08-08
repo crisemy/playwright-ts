@@ -68,6 +68,10 @@ LOG_LEVEL=info
 
 ## Executing Tests
 
+Tests are isolated by Playwright's test-scoped browser and request fixtures, so
+they do not share pages, browser contexts, or API clients. The suite runs fully
+in parallel locally and with two workers in CI.
+
 ### Run all tests (UI & API)
 
 ```bash

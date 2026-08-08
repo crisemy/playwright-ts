@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { StatusCodesClient } from '../../api/status-codes.client';
 import { logger } from '../../utils/logger';
 
@@ -13,7 +13,7 @@ test.describe('API Status Codes Functionality - @api', () => {
             logger.info(`Executing API test for status code: ${code}`);
             
             const response = await client.getStatusCode(code);
-            client.expectResponseStatus(response, code);
+            expect(response.status()).toBe(code);
         });
     }
 
@@ -23,6 +23,6 @@ test.describe('API Status Codes Functionality - @api', () => {
 
         const response = await client.getStatusCodeWithoutFollowingRedirects(301);
 
-        client.expectResponseStatus(response, 301);
+        expect(response.status()).toBe(301);
     });
 });

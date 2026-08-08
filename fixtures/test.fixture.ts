@@ -6,7 +6,7 @@ type MyFixtures = {
     loginPage: LoginPage;
 };
 
-// Extend base test by providing "loginPage" and other POs
+// This is a test-scoped fixture: every test receives a fresh Page and LoginPage.
 export const test = baseTest.extend<MyFixtures>({
     loginPage: async ({ page }, use) => {
         // Setup the fixture
