@@ -8,6 +8,11 @@ node_modules/
 /playwright/.auth/
 /logs/
 
+# Env Conf parameters
+.env
+
 # Testing stuff
 test-interview.ts
 test.txt
+
+
