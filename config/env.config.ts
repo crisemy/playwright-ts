@@ -1,15 +1,15 @@
-// 
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
-// Load environment variables from .env file
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+// This module is the single owner of local environment-file loading. Values
+// supplied by CI or the shell take precedence because dotenv does not override them.
+dotenv.config({ path: path.resolve(__dirname, '.env'), quiet: true });
 
 // Helper function to get environment variables with validation
 function getEnvVar(key: string): string {
     const value = process.env[key];
-    if (value === undefined) {
-        throw new Error(`Environment variable ${key} is not set in the .env file!`);
+    if (value === undefined || value.trim() === '') {
+        throw new Error(`Environment variable ${key} is required.`);
     }
     return value;
 }
