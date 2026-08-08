@@ -1,143 +1,106 @@
-# QA Automation Architecture - Playwright TypeScript
+# Playwright + TypeScript Automation Skeleton
 
-This repository implements an enterprise-grade test automation framework using Playwright, TypeScript, and the Page Object Model (POM).
+This repository is a reusable, SUT-agnostic Playwright automation skeleton for learning and for starting UI and API test projects. **No SUT is configured yet.** Active framework code contains no application pages, credentials, endpoints, or business assertions.
 
-## Architecture Highlights
+## Architecture
 
-- **UI Testing**: Handled via Page Object Models inside the `pages/` directory.
-- **API Testing**: Handled via API Object Models inside the `api/` directory using Playwright's `request` fixture.
-- **Environment Management**: Utilizes `dotenv` to abstract configurations from the source code.
-- **Logging**: Configured with `winston` to generate detailed timestamps and error trails in the `logs/` directory.
-- **Continuous Integration**: Fully configured GitHub Actions workflow.
-- **Containerization**: Included Docker setup for consistent testing across environments.
+- Playwright Test provides browser, page, request, retry, parallel, cross-browser, trace, screenshot, video, and HTML-report capabilities.
+- TypeScript is configured for strict, no-emit type checking.
+- Page objects keep SUT locators, reusable actions, and page state together.
+- API clients build typed transport requests; specs own business assertions.
+- Fixtures are test-scoped and provide an extension point for repeated SUT setup.
+- `config/env.config.ts` is the single owner of local environment-file loading.
+- Winston writes console and file logs. Do not log credentials, tokens, or personal data.
 
----
+## Structure
 
-## Setup & Installation
+```text
+api/                 SUT API clients are added here
+config/              environment configuration and .env.example
+data/                optional, non-secret SUT test data
+fixtures/            shared Playwright fixture extension point
+pages/               BasePage and future SUT page objects
+templates/           non-executable examples to copy and adapt
+tests/framework/     local framework validation with no SUT dependency
+tests/ui/            future UI specs
+tests/api/           future API specs
+utils/               cross-cutting utilities such as logging
+```
 
-### 1. Prerequisites
+`templates/` is intentionally outside Playwright's `tests/` directory. Template files are type-checked but never discovered or run as tests.
 
-Ensure you have the following installed:
+## Setup
 
-- Node.js (LTS version recommended)
-
-### 2. Install Dependencies
-
-Clone the repository and install the exact dependency versions from the lockfile:
+Install exact locked dependencies and Playwright browsers:
 
 ```bash
 npm ci
-```
-
-Use `npm install` only when intentionally adding or updating a dependency.
-
-### 3. Install Browsers
-
-Download the required Playwright browser binaries:
-
-```bash
 npx playwright install
 ```
 
-### 4. Configure Environment Variables
-
-We use environment variables to keep our tests secure and adaptable.
-Copy the `.env.example` file to create your local `.env` file:
+Copy the environment example:
 
 ```bash
 cp config/.env.example config/.env
 ```
 
-Ensure your `config/.env` contains the required variables. Below is just an example:
-
 ```env
-BASE_URL=
-ADMIN_USER=
-ADMIN_PASSWORD=
+BASE_URL=https://your-app.example
 LOG_LEVEL=info
 ```
 
-`config/.env` is local-only and ignored by Git. Commit changes to
-`config/.env.example` when the required configuration shape changes.
+`config/.env` is ignored by Git. CI and shell variables override local `.env` values. `BASE_URL` is optional for the framework-only smoke test, but configure it before adding UI or API tests. Add SUT-specific variables—such as credentials—only when that SUT requires them, and store their CI values as secrets.
 
-`config/env.config.ts` is the sole loader for this file. Environment variables
-provided by CI or your shell take precedence over local values.
+## Add a new SUT
 
----
+1. Set `BASE_URL` for the application in `config/.env`.
+2. Copy and rename a relevant file from `templates/`.
+3. Add a page object under `pages/` for a UI feature, or an API client under `api/` for an API area.
+4. Add SUT-specific UI and API specs under `tests/ui/` and `tests/api/`.
+5. Add test-scoped fixtures only when they remove meaningful repeated setup.
+6. Configure SUT secrets in CI and pass them to the test command.
 
-## Executing Tests
+To create a page object, extend `BasePage`, use relative routes with `navigate()`, and prefer `getByRole`, `getByLabel`, or `getByTestId` over fragile CSS selectors. Keep scenario assertions in specs unless they describe reusable page state.
 
-### Run all tests (UI & API)
+To create an API client, inject Playwright's `APIRequestContext`, construct a focused resource request, and return a typed `APIResponse`. Do not create wrappers that merely duplicate `APIRequestContext`; assert a SUT's business contract in the spec.
 
-```bash
-npm test
-```
+For authentication, copy `templates/auth-fixture.template.ts` and replace its comment with the SUT's login or storage-state setup. Authentication assumptions do not belong in the core skeleton.
 
-### Run only UI tests
+## Templates
 
-```bash
-npm run test:ui
-```
+- `page-object.template.ts` — page-object shape and accessible locator guidance.
+- `ui-spec.template.ts` — UI scenario structure.
+- `api-client.template.ts` — focused, typed API transport client.
+- `api-spec.template.ts` — API contract assertion structure.
+- `auth-fixture.template.ts` — authenticated fixture extension point.
 
-### Run only API tests
+Copy templates into active folders only after replacing every placeholder with the new SUT's contract.
 
-```bash
-npm run test:api
-```
-
-### Type-check the Framework
-
-Run this before opening a pull request or when changing TypeScript code:
+## Run and validate
 
 ```bash
-npm run type-check
+npm test                 # framework-only smoke test until SUT tests are added
+npm run test:ui          # UI tests after they are added
+npm run test:api         # API tests after they are added
+npm run test:headed      # headed execution
+npm run type-check       # strict TypeScript validation
+npm run test:report      # open the HTML report
 ```
 
-The GitHub Actions workflow runs the same command before the test suite.
+The Playwright configuration uses the configured `BASE_URL`, retries on CI, runs Chromium, Firefox, and WebKit, and supports parallel workers. On failure, it retains a trace, screenshot, and video in `test-results/`; use the HTML report or `npx playwright show-trace <trace.zip>` to inspect them.
 
-### Useful Flags
+## CI and Docker
 
-- `--headed`: Run tests visually with the browser UI.
-- `--ui`: Open Playwright's interactive UI mode.
-- `--project=chromium`: Run tests only on Google Chrome.
-- `--debug`: Step through your tests with the Playwright inspector.
+GitHub Actions installs dependencies with `npm ci`, installs browsers, type-checks, runs tests, and uploads the HTML report plus raw test artifacts. The workflow intentionally has no SUT credentials or URL defaults. Add only the environment variables and secrets required by your new SUT.
 
-For a headed run, use:
-
-```bash
-npm run test:headed
-```
-
----
-
-## Viewing Reports
-
-After running tests, Playwright automatically generates an HTML report. To view it:
-
-```bash
-npm run test:report
-```
-
-When a test fails, Playwright retains its trace, screenshot, and video under
-`test-results/`. CI uploads both this diagnostic output and the HTML report as
-workflow artifacts.
-
----
-
-## Running with Docker
-
-If you want to run the tests in an isolated, headless container:
-
-- **Build and Run:**
+Run the skeleton in Docker:
 
 ```bash
 docker compose run --rm playwright-tests
 ```
 
-This runs the official Microsoft Playwright image and executes the full suite.
+Docker uses the matching Playwright image, an isolated `node_modules` volume, and `npm ci`. The mounted project lets `config/env.config.ts` load `config/.env`; override a value for one execution with `docker compose run -e BASE_URL=https://your-app.example playwright-tests`.
 
-Docker runs `npm ci` and uses an isolated container `node_modules` volume. It
-loads `config/.env` from the mounted project; override an individual value for
-one execution with `docker compose run -e BASE_URL=https://example.test playwright-tests`.
+## Adapting to a different application
 
-The `--rm` flag removes the one-off container when the test command exits.
+The core workflow stays the same for any application: define its environment values, model its pages or resources, add only its needed fixtures and test data, then write observable UI/API contracts. Nothing in the active framework assumes a login flow, account role, endpoint, selector, or business message.
