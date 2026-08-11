@@ -188,3 +188,11 @@ Uses the matching `mcr.microsoft.com/playwright:v1.59.1-jammy` image, an isolate
 ## Adapting to a different application
 
 The core workflow stays the same for any application: define its environment values, model its pages or resources, add only its needed fixtures and test data, then write observable UI/API contracts. Nothing in the active framework assumes a login flow, account role, endpoint, selector, or business message.
+
+---
+
+## License
+
+MIT License
+
+Copyright (c) 2026 Cris N.
