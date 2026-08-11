@@ -12,7 +12,6 @@ node_modules/
 .env
 
 # Testing stuff
-test-interview.ts
 test.txt
 
 
