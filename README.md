@@ -113,8 +113,22 @@ Prerequisites: Node.js LTS.
 ```bash
 npm ci                       # install exact locked dependencies
 npx playwright install       # download browser binaries
-cp config/.env.example config/.env
+cp config/.env.example config/.env   # first-time only
 ```
+
+**Automated setup** — skip manual steps with:
+
+```bash
+npm run setup                # installs deps, browsers, MCP, .env, type-checks
+```
+
+The `setup` script runs:
+
+1. `npm install` — exact locked dependencies
+2. `npx playwright install` — Chromium/Firefox/WebKit
+3. `npm install -D @playwright/mcp` — Playwright MCP server (LLM-assisted testing)
+4. Creates `config/.env` from example if missing
+5. `npx tsc --noEmit` — TypeScript validation
 
 `config/.env` example:
 
